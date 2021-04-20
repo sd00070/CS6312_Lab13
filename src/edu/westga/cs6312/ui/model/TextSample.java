@@ -26,6 +26,24 @@ public class TextSample {
 	}
 
 	/**
+	 * Gets the current message.
+	 * 
+	 * @return - the message of the sample text
+	 */
+	public String getMessage() {
+		return this.message;
+	}
+
+	/**
+	 * Changes the message to the provided String.
+	 * 
+	 * @param newMessage - the String to set as the message
+	 */
+	public void setMessage(String newMessage) {
+		this.message = newMessage;
+	}
+
+	/**
 	 * Primarily used for testing, returns a String that describes the object and
 	 * it's instance variables.
 	 * 
