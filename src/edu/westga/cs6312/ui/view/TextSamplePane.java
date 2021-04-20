@@ -128,6 +128,13 @@ public class TextSamplePane extends GridPane {
 			this.fontSizeSliderLabel = new Label("Font Size:");
 
 			this.fontSizeSlider = new Slider();
+			this.fontSizeSlider.setMin(10.0);
+			this.fontSizeSlider.setMax(48.0);
+			this.fontSizeSlider.setMinorTickCount(4);
+			this.fontSizeSlider.setMajorTickUnit(10.0);
+			this.fontSizeSlider.setSnapToTicks(true);
+			this.fontSizeSlider.showTickMarksProperty().set(true);
+			this.fontSizeSlider.showTickLabelsProperty().set(true);
 
 			this.getChildren().addAll(this.fontSizeSliderLabel, this.fontSizeSlider);
 		}
