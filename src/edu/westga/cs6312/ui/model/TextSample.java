@@ -44,6 +44,24 @@ public class TextSample {
 	}
 
 	/**
+	 * Gets the name of the current font family.
+	 * 
+	 * @return the name of the font's family
+	 */
+	public String getFontFamilyName() {
+		return this.fontFamilyName;
+	}
+
+	/**
+	 * Changes the font family name to the provided String.
+	 * 
+	 * @param newFontFamilyName - the name of the new font family
+	 */
+	public void setFontFamilyName(String newFontFamilyName) {
+		this.fontFamilyName = newFontFamilyName;
+	}
+
+	/**
 	 * Primarily used for testing, returns a String that describes the object and
 	 * it's instance variables.
 	 * 
