@@ -62,6 +62,24 @@ public class TextSample {
 	}
 
 	/**
+	 * Gets the current size of the font.
+	 * 
+	 * @return the current font size
+	 */
+	public double getFontSize() {
+		return this.fontSize;
+	}
+
+	/**
+	 * Changes the font size to the given value.
+	 * 
+	 * @param newFontSize - the new value to set the font size to
+	 */
+	public void setFontSize(double newFontSize) {
+		this.fontSize = newFontSize;
+	}
+
+	/**
 	 * Primarily used for testing, returns a String that describes the object and
 	 * it's instance variables.
 	 * 
