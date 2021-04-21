@@ -163,7 +163,10 @@ public class TextSamplePane extends GridPane {
 			this.fontSizeSlider.showTickLabelsProperty().set(true);
 
 			this.fontSizeSlider.valueProperty().addListener(thumbPositionChangeEvent -> {
-				System.out.println("slider moved");
+				double selectedFontSize = this.fontSizeSlider.valueProperty().get();
+				TextSamplePane.this.textSampleModel.setFontSize(selectedFontSize);
+				
+				TextSamplePane.this.messageDisplayPane.refreshDisplay();
 			});
 
 			this.getChildren().addAll(this.fontSizeSliderLabel, this.fontSizeSlider);
