@@ -24,7 +24,7 @@ public class TextSampleDriver extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("CS6312 TextSample UI");
 		
-		TextSample textSampleModel = new TextSample("Hello, World!", "Courier", 12.0);
+		TextSample textSampleModel = new TextSample("Hello, World!", "Courier New", 12.0);
 
 		TextSamplePane primaryPane = new TextSamplePane(textSampleModel);
 		

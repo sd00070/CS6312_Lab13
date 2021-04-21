@@ -10,6 +10,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * Provides the GUI view of the TextSample application. Creates the sub-panes
@@ -21,6 +22,8 @@ import javafx.scene.layout.VBox;
 public class TextSamplePane extends GridPane {
 
 	private TextSample textSampleModel;
+
+	private MessageDisplayPane messageDisplayPane;
 
 	/**
 	 * Uses the provided TextSample as a model skeleton to create the main pane for
@@ -52,10 +55,11 @@ public class TextSamplePane extends GridPane {
 		FontSizeSliderVBox fontSizeSliderVBox = new FontSizeSliderVBox();
 		TextSamplePane.setConstraints(fontSizeSliderVBox, 0, 1, 2, 1);
 
-		MessageDisplayPane messageDisplayPane = new MessageDisplayPane();
-		TextSamplePane.setConstraints(messageDisplayPane, 0, 2, 2, 2);
+		this.messageDisplayPane = new MessageDisplayPane();
+		TextSamplePane.setConstraints(this.messageDisplayPane, 0, 2, 2, 2);
 
-		this.getChildren().addAll(fontFamilySelectionVBox, textSelectionVBox, fontSizeSliderVBox, messageDisplayPane);
+		this.getChildren().addAll(fontFamilySelectionVBox, textSelectionVBox, fontSizeSliderVBox,
+				this.messageDisplayPane);
 	}
 
 	/**
@@ -78,6 +82,13 @@ public class TextSamplePane extends GridPane {
 
 			this.fontFamilySelectionListView = new ListView<String>();
 			this.fontFamilySelectionListView.getItems().addAll("Courier New", "Helvetica", "Garamond", "Trebuchet MS");
+			this.fontFamilySelectionListView.getSelectionModel().select(TextSamplePane.this.textSampleModel.getFontFamilyName());
+			this.fontFamilySelectionListView.getSelectionModel().selectedItemProperty()
+					.addListener(fontFamilySelectedEvent -> {
+						String selectedFontFamily = this.fontFamilySelectionListView.getSelectionModel()
+								.getSelectedItem();
+						TextSamplePane.this.textSampleModel.setFontFamilyName(selectedFontFamily);
+					});
 
 			this.getChildren().addAll(this.fontFamilySelectionLabel, this.fontFamilySelectionListView);
 		}
@@ -104,6 +115,10 @@ public class TextSamplePane extends GridPane {
 			this.textSelectionComboBox = new ComboBox<String>();
 			this.textSelectionComboBox.getItems().addAll("Hello, World!", "Twas brillig, and the slithy toves",
 					"The quick brown fox jumps over the lazy dog");
+			this.textSelectionComboBox.setValue(TextSamplePane.this.textSampleModel.getMessage());
+			this.textSelectionComboBox.setOnAction(textSelectedEvent -> {
+				System.out.println("text selected");
+			});
 
 			this.getChildren().addAll(this.textSelectionLabel, this.textSelectionComboBox);
 		}
@@ -130,11 +145,16 @@ public class TextSamplePane extends GridPane {
 			this.fontSizeSlider = new Slider();
 			this.fontSizeSlider.setMin(10.0);
 			this.fontSizeSlider.setMax(48.0);
+			this.fontSizeSlider.setValue(TextSamplePane.this.textSampleModel.getFontSize());
 			this.fontSizeSlider.setMinorTickCount(4);
 			this.fontSizeSlider.setMajorTickUnit(10.0);
 			this.fontSizeSlider.setSnapToTicks(true);
 			this.fontSizeSlider.showTickMarksProperty().set(true);
 			this.fontSizeSlider.showTickLabelsProperty().set(true);
+
+			this.fontSizeSlider.valueProperty().addListener(thumbPositionChangeEvent -> {
+				System.out.println("slider moved");
+			});
 
 			this.getChildren().addAll(this.fontSizeSliderLabel, this.fontSizeSlider);
 		}
@@ -154,7 +174,11 @@ public class TextSamplePane extends GridPane {
 		 * Creates the label and places it in the center of the Pane.
 		 */
 		protected MessageDisplayPane() {
+			this.paddingProperty().set(new Insets(20.0));
+
 			this.textSampleDisplayLabel = new Label(TextSamplePane.this.textSampleModel.getMessage());
+			this.textSampleDisplayLabel.setFont(new Font(TextSamplePane.this.textSampleModel.getFontFamilyName(),
+					TextSamplePane.this.textSampleModel.getFontSize()));
 
 			this.setCenter(this.textSampleDisplayLabel);
 		}
