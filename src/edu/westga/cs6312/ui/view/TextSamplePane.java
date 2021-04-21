@@ -1,6 +1,8 @@
 package edu.westga.cs6312.ui.view;
 
 import edu.westga.cs6312.ui.model.TextSample;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -82,12 +84,15 @@ public class TextSamplePane extends GridPane {
 
 			this.fontFamilySelectionListView = new ListView<String>();
 			this.fontFamilySelectionListView.getItems().addAll("Courier New", "Helvetica", "Garamond", "Trebuchet MS");
-			this.fontFamilySelectionListView.getSelectionModel().select(TextSamplePane.this.textSampleModel.getFontFamilyName());
+			this.fontFamilySelectionListView.getSelectionModel()
+					.select(TextSamplePane.this.textSampleModel.getFontFamilyName());
 			this.fontFamilySelectionListView.getSelectionModel().selectedItemProperty()
 					.addListener(fontFamilySelectedEvent -> {
 						String selectedFontFamily = this.fontFamilySelectionListView.getSelectionModel()
 								.getSelectedItem();
 						TextSamplePane.this.textSampleModel.setFontFamilyName(selectedFontFamily);
+
+						TextSamplePane.this.messageDisplayPane.refreshDisplay();
 					});
 
 			this.getChildren().addAll(this.fontFamilySelectionLabel, this.fontFamilySelectionListView);
@@ -113,11 +118,16 @@ public class TextSamplePane extends GridPane {
 			this.textSelectionLabel = new Label("Text:");
 
 			this.textSelectionComboBox = new ComboBox<String>();
-			this.textSelectionComboBox.getItems().addAll("Hello, World!", "Twas brillig, and the slithy toves",
-					"The quick brown fox jumps over the lazy dog");
+			String[] textSelectionArray = { "Hello, World!", "Twas brillig, and the slithy toves",
+				"The quick brown fox jumps over the lazy dog" };
+			ObservableList<String> textSelectionItems = FXCollections.observableArrayList(textSelectionArray);
+			this.textSelectionComboBox.getItems().addAll(textSelectionItems);
 			this.textSelectionComboBox.setValue(TextSamplePane.this.textSampleModel.getMessage());
 			this.textSelectionComboBox.setOnAction(textSelectedEvent -> {
-				System.out.println("text selected");
+				String selectedMessage = this.textSelectionComboBox.getValue();
+				TextSamplePane.this.textSampleModel.setMessage(selectedMessage);
+
+				TextSamplePane.this.messageDisplayPane.refreshDisplay();
 			});
 
 			this.getChildren().addAll(this.textSelectionLabel, this.textSelectionComboBox);
@@ -176,11 +186,20 @@ public class TextSamplePane extends GridPane {
 		protected MessageDisplayPane() {
 			this.paddingProperty().set(new Insets(20.0));
 
-			this.textSampleDisplayLabel = new Label(TextSamplePane.this.textSampleModel.getMessage());
-			this.textSampleDisplayLabel.setFont(new Font(TextSamplePane.this.textSampleModel.getFontFamilyName(),
-					TextSamplePane.this.textSampleModel.getFontSize()));
+			this.textSampleDisplayLabel = new Label();
+			this.refreshDisplay();
 
 			this.setCenter(this.textSampleDisplayLabel);
+		}
+
+		/**
+		 * Makes the label display the current state of the TextSample model.
+		 */
+		public void refreshDisplay() {
+			this.textSampleDisplayLabel.textProperty().set(TextSamplePane.this.textSampleModel.getMessage());
+			this.textSampleDisplayLabel.fontProperty()
+					.set(new Font(TextSamplePane.this.textSampleModel.getFontFamilyName(),
+							TextSamplePane.this.textSampleModel.getFontSize()));
 		}
 	}
 }
