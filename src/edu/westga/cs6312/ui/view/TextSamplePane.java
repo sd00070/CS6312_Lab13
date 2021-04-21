@@ -80,6 +80,8 @@ public class TextSamplePane extends GridPane {
 		 * VBox.
 		 */
 		protected FontFamilySelectionVBox() {
+			this.setSpacing(10.0);
+			
 			this.fontFamilySelectionLabel = new Label("Font:");
 
 			this.fontFamilySelectionListView = new ListView<String>();
@@ -131,6 +133,8 @@ public class TextSamplePane extends GridPane {
 		 * VBox.
 		 */
 		protected TextSelectionVBox() {
+			this.setSpacing(10.0);
+			
 			this.textSelectionLabel = new Label("Text:");
 
 			this.textSelectionComboBox = new ComboBox<String>();
@@ -166,6 +170,8 @@ public class TextSamplePane extends GridPane {
 		 * VBox.
 		 */
 		protected FontSizeSliderVBox() {
+			this.setSpacing(10.0);
+			
 			this.fontSizeSliderLabel = new Label("Font Size:");
 
 			this.fontSizeSlider = new Slider();
