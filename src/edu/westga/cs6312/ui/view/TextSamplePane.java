@@ -83,7 +83,9 @@ public class TextSamplePane extends GridPane {
 			this.fontFamilySelectionLabel = new Label("Font:");
 
 			this.fontFamilySelectionListView = new ListView<String>();
-			this.fontFamilySelectionListView.getItems().addAll("Courier New", "Helvetica", "Garamond", "Trebuchet MS");
+			String[] fontFamiliesArray = { "System", "Courier New", "Helvetica", "Garamond", "Trebuchet MS",
+				"FreeSerif", "Ubuntu", "Granada" };
+			this.addFontsIfAvaliable(fontFamiliesArray);
 			this.fontFamilySelectionListView.getSelectionModel()
 					.select(TextSamplePane.this.textSampleModel.getFontFamilyName());
 			this.fontFamilySelectionListView.getSelectionModel().selectedItemProperty()
@@ -96,6 +98,20 @@ public class TextSamplePane extends GridPane {
 					});
 
 			this.getChildren().addAll(this.fontFamilySelectionLabel, this.fontFamilySelectionListView);
+		}
+
+		/**
+		 * Checks to see if the font family exists in the system, and adds it to the
+		 * list if it exists.
+		 * 
+		 * @param fonts - an array of font families to attempt to add to the list
+		 */
+		private void addFontsIfAvaliable(String[] fonts) {
+			for (String fontFamily : fonts) {
+				if (Font.getFamilies().contains(fontFamily)) {
+					this.fontFamilySelectionListView.getItems().add(fontFamily);
+				}
+			}
 		}
 	}
 
@@ -165,7 +181,7 @@ public class TextSamplePane extends GridPane {
 			this.fontSizeSlider.valueProperty().addListener(thumbPositionChangeEvent -> {
 				double selectedFontSize = this.fontSizeSlider.valueProperty().get();
 				TextSamplePane.this.textSampleModel.setFontSize(selectedFontSize);
-				
+
 				TextSamplePane.this.messageDisplayPane.refreshDisplay();
 			});
 
